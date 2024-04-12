@@ -76,6 +76,16 @@ public class TaskManager {
     }
 
     public static void listTasks() {
+        if(tasks == null || tasks.length ==0) {
+            System.out.println("No tasks is available");
+        } else {
+            System.out.println("Tasks: ");
+            for (int i = 0; i< tasks.length; i++){
+                System.out.println((i+1) + ". Description: " + tasks[i][0] +
+                        ", " + "Due Date: " + tasks[i][1] + ", Important: " +
+                        tasks[i][2]);
+            }
+        }
     }
 
     public static void saveTasksToFile(String fileName) {
