@@ -1,5 +1,7 @@
 package pl.coderslab;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,7 +29,7 @@ public class TaskManager {
                 break;
             case "exit":
                 saveTasksToFile("tasks.csv");
-                System.out.println(ConsoleColors.RED + "Finish");
+                System.out.println("Finish");
                 break;
             default:
                 System.out.println("Please select a correct option.");
@@ -35,8 +37,8 @@ public class TaskManager {
     }
 
     public static String optionsList() {
-        System.out.println(ConsoleColors.BLUE + "Please select an option: ");
-        System.out.println(ConsoleColors.RESET + "add");
+        System.out.println("Please select an option: ");
+        System.out.println("add");
         System.out.println("remove");
         System.out.println("list");
         System.out.println("exit");
@@ -51,14 +53,17 @@ public class TaskManager {
         String description = scanner.nextLine();
         System.out.println("Please add task due date: ");
         String dueDate = scanner.nextLine();
-        System.out.println("Is your task is important: true/false");
+        System.out.println("Is your task important: true/false");
         String isImportant = scanner.nextLine();
+
         if (tasks == null) {
             tasks = new String[1][3];
         } else {
             tasks = Arrays.copyOf(tasks, tasks.length + 1);
         }
         tasks[tasks.length - 1] = new String[]{description, dueDate, isImportant};
+
+        saveTasksToFile("tasks.csv");
     }
 
     public static void removeTask() {
@@ -66,7 +71,7 @@ public class TaskManager {
 
     public static void listTasks() {
         if (tasks == null || tasks.length == 0) {
-            System.out.println("No tasks is available");
+            System.out.println("No tasks available");
         } else {
             System.out.println("Tasks: ");
             for (int i = 0; i < tasks.length; i++) {
@@ -78,6 +83,14 @@ public class TaskManager {
     }
 
     public static void saveTasksToFile(String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            for (String[] task : tasks) {
+                writer.write(String.join(",", task));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void loadDataToTab(String fileName) {
