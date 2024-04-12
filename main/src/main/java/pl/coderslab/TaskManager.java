@@ -37,8 +37,8 @@ public class TaskManager {
     }
 
     public static String optionsList() {
-        System.out.println("Please select an option: ");
-        System.out.println("add");
+        System.out.println(ConsoleColors.BLUE+"Please select an option: ");
+        System.out.println(ConsoleColors.RESET+"add");
         System.out.println("remove");
         System.out.println("list");
         System.out.println("exit");
